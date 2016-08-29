@@ -12,7 +12,7 @@ class App extends Component {
     }
   }
 
-  _changePage = (scr, difficulty) => {
+  _playGame = (scr, difficulty) => {
     this.setState({
       currentScreen: scr,
       difficulty: difficulty
@@ -22,11 +22,11 @@ class App extends Component {
   render () {
     let screen
     switch (this.state.currentScreen) {
-      case 'home': screen = <Home navigate={this._changePage} />
+      case 'home': screen = <Home play={this._playGame} />
         break
       case 'game': screen = <Game difficulty={this.state.difficulty} />
         break
-      default: screen = <Home navigate={this._changePage} />
+      default: screen = <Home play={this._playGame} />
     }
     return <div className="App">
       {screen}

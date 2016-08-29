@@ -5,11 +5,11 @@ class Home extends Component {
   _handleClick = () => {
     let select = document.querySelector("select[name='difficulty_level']")
     let difficulty = select.value
-    this.props.navigate('game', difficulty)
+    this.props.play('game', difficulty)
   }
   render () {
     return <div className="Home">
-    <h1>Welcome to BombSniffer&trade;</h1>
+      <h1>Welcome to BombSniffer&trade;</h1>
       <Select
         label="Select Your Difficulty"
         name="difficulty_level"
@@ -23,7 +23,7 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  navigate: React.PropTypes.func.isRequired
+  play: React.PropTypes.func.isRequired
 }
 
 export default Home

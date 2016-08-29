@@ -7,7 +7,8 @@ class Game extends Component {
   constructor () {
     super()
     this.state = {
-      board: []
+      board: [],
+      turns: 0
     }
   }
 
@@ -22,6 +23,7 @@ class Game extends Component {
   }
 
   revealCell = (row, col) => {
+    this.setState({turns: this.state.turns + 1})
     window.fetch(`${API_URL}/games/${this.state.id}/check?row=${row}&col=${col}`, {
       method: 'POST'
     }).then((response) => {
@@ -55,6 +57,7 @@ class Game extends Component {
       return <tr key={i}>{cells}</tr>
     })
     return <div className="Game">
+      <h1>The Score Is: {this.state.turns}</h1>
       <h1>Bomb Sniffer!</h1>
       <table>
         <tbody>
@@ -64,5 +67,7 @@ class Game extends Component {
     </div>
   }
 }
-
+Game.propTypes = {
+  difficulty: React.PropTypes.string.isRequired
+}
 export default Game
