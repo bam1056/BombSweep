@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Cell from './Cell'
+import moment from 'moment'
+moment().format()
 
 const API_URL = 'http://minesweeper-api.herokuapp.com'
 
@@ -8,11 +10,24 @@ class Game extends Component {
     super()
     this.state = {
       board: [],
-      turns: 0
+      turns: 0,
+      time: 0,
+      min: 0
     }
+  }
+  _goHome = () => {
+    this.props.goHome('home')
   }
 
   componentDidMount () {
+    const start = new Date()
+    let minutes = 0
+    setInterval(() => {
+      let end = new Date()
+      let time = moment.duration(end - start).seconds()
+      if (time >= 59) { minutes++ }
+      this.setState({time: time, min: minutes})
+    }, 1000)
     window.fetch(`${API_URL}/games?difficulty=${this.props.difficulty}`, {
       method: 'POST'
     }).then((response) => {
@@ -43,6 +58,7 @@ class Game extends Component {
     })
   }
 
+
   render () {
     const rows = this.state.board.map((row, i) => {
       const cells = row.map((cell, j) => {
@@ -57,6 +73,7 @@ class Game extends Component {
       return <tr key={i}>{cells}</tr>
     })
     return <div className="Game">
+      <h1>{this.state.min}:{this.state.time}</h1>
       <h1>The Score Is: {this.state.turns}</h1>
       <h1>Bomb Sniffer!</h1>
       <table>
@@ -64,10 +81,16 @@ class Game extends Component {
           {rows}
         </tbody>
       </table>
+      <br />
+      <button onClick={this._goHome}>Start New Game</button>
     </div>
   }
 }
 Game.propTypes = {
-  difficulty: React.PropTypes.string.isRequired
+  difficulty: React.PropTypes.oneOfType([
+    React.PropTypes.string.isRequired,
+    React.PropTypes.number.isRequired
+  ]),
+  goHome: React.PropTypes.func.isRequired
 }
 export default Game

@@ -7,9 +7,12 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      currentScreen: 'home',
+      currentScreen: 'game',
       difficulty: 0
     }
+  }
+  _goHome = (scr) => {
+    this.setState({currentScreen: scr})
   }
 
   _playGame = (scr, difficulty) => {
@@ -24,7 +27,7 @@ class App extends Component {
     switch (this.state.currentScreen) {
       case 'home': screen = <Home play={this._playGame} />
         break
-      case 'game': screen = <Game difficulty={this.state.difficulty} />
+      case 'game': screen = <Game difficulty={this.state.difficulty} goHome={this._goHome} />
         break
       default: screen = <Home play={this._playGame} />
     }
