@@ -7,12 +7,16 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      currentScreen: 'home'
+      currentScreen: 'home',
+      difficulty: 0
     }
   }
 
-  _changePage = (scr) => {
-    this.setState({ currentScreen: scr })
+  _changePage = (scr, difficulty) => {
+    this.setState({
+      currentScreen: scr,
+      difficulty: difficulty
+    })
   }
 
   render () {

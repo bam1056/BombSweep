@@ -3,14 +3,16 @@ import { Select } from 'rebass'
 
 class Home extends Component {
   _handleClick = () => {
-    this.props.navigate('game')
+    let select = document.querySelector("select[name='difficulty_level']")
+    let difficulty = select.value
+    this.props.navigate('game', difficulty)
   }
   render () {
     return <div className="Home">
     <h1>Welcome to BombSniffer&trade;</h1>
       <Select
         label="Select Your Difficulty"
-        name="Difficulty Level"
+        name="difficulty_level"
         options={[{children: 'Hard', value: 2}, {children: 'Medium', value: 1}, {children: 'Easy', value: 0}]}
         rounded
       />

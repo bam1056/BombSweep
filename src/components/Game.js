@@ -12,7 +12,7 @@ class Game extends Component {
   }
 
   componentDidMount () {
-    window.fetch(`${API_URL}/games?difficulty=0`, {
+    window.fetch(`${API_URL}/games?difficulty=${this.props.difficulty}`, {
       method: 'POST'
     }).then((response) => {
       return response.json()
