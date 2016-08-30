@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Cell from './Cell'
 import moment from 'moment'
+import EndGame from './EndGame'
 moment().format()
 
 const API_URL = 'http://minesweeper-api.herokuapp.com'
@@ -57,32 +58,38 @@ class Game extends Component {
   }
 
   render () {
-    const rows = this.state.board.map((row, i) => {
-      const cells = row.map((cell, j) => {
-        return <Cell
-          type={cell}
-          revealCell={this.revealCell}
-          flagCell={this.flagCell}
-          row={i}
-          col={j}
-          key={j} />
-      })
-      return <tr key={i}>{cells}</tr>
-    })
-    return <div className="Game">
-      <div className="Stats">
-        <h1>|Timer:| {this.state.time}</h1>
-        <h1>|Score:| {this.state.turns}</h1>
-      </div>
-      <h1>Bomb Sniffer!</h1>
-      <table>
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
-      <br />
-      <button onClick={this._goHome}>Start New Game</button>
-    </div>
+    switch (this.state.state) {
+      case 'won': return <EndGame result={this.state.state} />
+      case 'lost': return <EndGame result={this.state.state} />
+      default: {
+        const rows = this.state.board.map((row, i) => {
+          const cells = row.map((cell, j) => {
+            return <Cell
+              type={cell}
+              revealCell={this.revealCell}
+              flagCell={this.flagCell}
+              row={i}
+              col={j}
+              key={j} />
+          })
+          return <tr key={i}>{cells}</tr>
+        })
+        return <div className="Game">
+          <div className="Stats">
+            <h1>|Timer:| {this.state.time}</h1>
+            <h1>|Score:| {this.state.turns}</h1>
+          </div>
+          <h1>Bomb Sniffer!</h1>
+          <table>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+          <br />
+          <button onClick={this._goHome}>Start New Game</button>
+        </div>
+      }
+    }
   }
 }
 Game.propTypes = {
