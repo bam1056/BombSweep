@@ -11,8 +11,7 @@ class Game extends Component {
     this.state = {
       board: [],
       turns: 0,
-      time: 0,
-      min: 0
+      time: ''
     }
   }
   _goHome = () => {
@@ -21,13 +20,12 @@ class Game extends Component {
 
   componentDidMount () {
     const start = new Date()
-    let minutes = 0
     setInterval(() => {
       let end = new Date()
-      let time = moment.duration(end - start).seconds()
-      if (time >= 59) { minutes++ }
-      this.setState({time: time, min: minutes})
-    }, 1000)
+      let diff = moment.duration(end - start)
+      let time = '0' + diff.minutes().toString() + ':0' + diff.seconds().toString()
+      this.setState({time: time})
+    }, 500)
     window.fetch(`${API_URL}/games?difficulty=${this.props.difficulty}`, {
       method: 'POST'
     }).then((response) => {
@@ -58,7 +56,6 @@ class Game extends Component {
     })
   }
 
-
   render () {
     const rows = this.state.board.map((row, i) => {
       const cells = row.map((cell, j) => {
@@ -73,8 +70,10 @@ class Game extends Component {
       return <tr key={i}>{cells}</tr>
     })
     return <div className="Game">
-      <h1>{this.state.min}:{this.state.time}</h1>
-      <h1>The Score Is: {this.state.turns}</h1>
+      <div className="Stats">
+        <h1>|Timer:| {this.state.time}</h1>
+        <h1>|Score:| {this.state.turns}</h1>
+      </div>
       <h1>Bomb Sniffer!</h1>
       <table>
         <tbody>
